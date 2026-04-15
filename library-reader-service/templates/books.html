@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Books | Library Reader Service{% endblock %}
+
+{% block content %}
+<section class="panel panel-header">
+    <div>
+        <p class="eyebrow">Catalog Management</p>
+        <h1>Books</h1>
+    </div>
+    <a class="button primary" href="{{ url_for('create_book') }}">Add Book</a>
+</section>
+
+<section class="panel">
+    <form class="search-form" method="get" action="{{ url_for('books') }}">
+        <input type="text" name="q" placeholder="Search by title, author, or category" value="{{ query }}">
+        <button class="button secondary" type="submit">Search</button>
+        {% if query %}
+            <a class="button ghost" href="{{ url_for('books') }}">Clear</a>
+        {% endif %}
+    </form>
+</section>
+
+<section class="panel">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Year</th>
+                    <th>ISBN</th>
+                    <th>Copies</th>
+                    <th>Availability</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td>{{ book.book_id }}</td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.category }}</td>
+                        <td>{{ book.publication_year }}</td>
+                        <td>{{ book.isbn }}</td>
+                        <td>{{ book.available_copies }} / {{ book.total_copies }}</td>
+                        <td>
+                            {% if book.is_available() %}
+                                <span class="status-chip available">Available</span>
+                            {% else %}
+                                <span class="status-chip unavailable">Unavailable</span>
+                            {% endif %}
+                        </td>
+                        <td class="actions">
+                            <a class="button ghost" href="{{ url_for('edit_book', book_id=book.book_id) }}">Edit</a>
+                            <form method="post" action="{{ url_for('delete_book', book_id=book.book_id) }}" onsubmit="return confirm('Delete this book?');">
+                                <button class="button danger" type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="9" class="empty-state">No books found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

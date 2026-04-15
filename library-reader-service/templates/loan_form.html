@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Issue Book | Library Reader Service{% endblock %}
+
+{% block content %}
+<section class="panel panel-header">
+    <div>
+        <p class="eyebrow">Loan Form</p>
+        <h1>Issue Book</h1>
+    </div>
+    <a class="button ghost" href="{{ url_for('loans') }}">Back to Loans</a>
+</section>
+
+<section class="panel form-panel">
+    <form method="post" action="{{ url_for('create_loan') }}" class="data-form">
+        <label>
+            Reader
+            <select name="reader_id" required>
+                <option value="">Select reader</option>
+                {% for reader in readers %}
+                    <option value="{{ reader.reader_id }}" {% if form_data.get('reader_id')|string == reader.reader_id|string %}selected{% endif %}>
+                        {{ reader.full_name }} ({{ reader.email }})
+                    </option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            Book
+            <select name="book_id" required>
+                <option value="">Select book</option>
+                {% for book in books %}
+                    <option value="{{ book.book_id }}" {% if form_data.get('book_id')|string == book.book_id|string %}selected{% endif %}>
+                        {{ book.title }} ({{ book.available_copies }} copies available)
+                    </option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            Issue Date
+            <input type="date" name="issue_date" required value="{{ form_data.get('issue_date', today) }}">
+        </label>
+        <label>
+            Due Date
+            <input type="date" name="due_date" required value="{{ form_data.get('due_date', today) }}">
+        </label>
+        <div class="form-actions">
+            <button class="button primary" type="submit">Issue Book</button>
+            <a class="button secondary" href="{{ url_for('loans') }}">Cancel</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

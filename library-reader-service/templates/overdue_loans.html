@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Overdue Loans | Library Reader Service{% endblock %}
+
+{% block content %}
+<section class="panel panel-header">
+    <div>
+        <p class="eyebrow">Monitoring</p>
+        <h1>Overdue Loans</h1>
+    </div>
+    <a class="button ghost" href="{{ url_for('loans') }}">Back to Loans</a>
+</section>
+
+<section class="panel">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Reader</th>
+                    <th>Book</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
+                    <th>Days Overdue</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for loan in overdue_loans %}
+                    <tr>
+                        <td>{{ loan.loan_id }}</td>
+                        <td>{{ loan.reader_name }}</td>
+                        <td>{{ loan.book_title }}</td>
+                        <td>{{ loan.issue_date }}</td>
+                        <td>{{ loan.due_date }}</td>
+                        <td>{{ loan.days_overdue() }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="empty-state">No overdue loans found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

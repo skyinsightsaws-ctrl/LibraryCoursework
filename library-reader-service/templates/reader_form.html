@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}{{ form_title }} | Library Reader Service{% endblock %}
+
+{% block content %}
+<section class="panel panel-header">
+    <div>
+        <p class="eyebrow">Reader Form</p>
+        <h1>{{ form_title }}</h1>
+    </div>
+    <a class="button ghost" href="{{ url_for('readers') }}">Back to Readers</a>
+</section>
+
+<section class="panel form-panel">
+    <form method="post" action="{{ form_action }}" class="data-form">
+        <label>
+            Full Name
+            <input type="text" name="full_name" required value="{{ form_data.get('full_name', '') }}">
+        </label>
+        <label>
+            Email
+            <input type="email" name="email" required value="{{ form_data.get('email', '') }}">
+        </label>
+        <label>
+            Phone
+            <input type="text" name="phone" required value="{{ form_data.get('phone', '') }}">
+        </label>
+        <label>
+            Membership Date
+            <input type="date" name="membership_date" required value="{{ form_data.get('membership_date', '') }}">
+        </label>
+        <div class="form-actions">
+            <button class="button primary" type="submit">{{ submit_label }}</button>
+            <a class="button secondary" href="{{ url_for('readers') }}">Cancel</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Loans | Library Reader Service{% endblock %}
+
+{% block content %}
+<section class="panel panel-header">
+    <div>
+        <p class="eyebrow">Loan Management</p>
+        <h1>Loans</h1>
+    </div>
+    <div class="button-row">
+        <a class="button primary" href="{{ url_for('create_loan') }}">Issue Book</a>
+        <a class="button secondary" href="{{ url_for('overdue_loans') }}">View Overdue Loans</a>
+    </div>
+</section>
+
+<section class="panel">
+    <h2>Active Loans</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Reader</th>
+                    <th>Book</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for loan in active_loans %}
+                    <tr>
+                        <td>{{ loan.loan_id }}</td>
+                        <td>{{ loan.reader_name }}</td>
+                        <td>{{ loan.book_title }}</td>
+                        <td>{{ loan.issue_date }}</td>
+                        <td>{{ loan.due_date }}</td>
+                        <td>
+                            {% if loan.is_overdue() %}
+                                <span class="status-chip overdue">Overdue</span>
+                            {% else %}
+                                <span class="status-chip active">Active</span>
+                            {% endif %}
+                        </td>
+                        <td class="actions">
+                            <form method="post" action="{{ url_for('return_loan', loan_id=loan.loan_id) }}">
+                                <input type="hidden" name="return_date" value="{{ today }}">
+                                <button class="button primary" type="submit">Return Book</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="empty-state">No active loans found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="panel">
+    <h2>Returned Loans</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Reader</th>
+                    <th>Book</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for loan in returned_loans %}
+                    <tr>
+                        <td>{{ loan.loan_id }}</td>
+                        <td>{{ loan.reader_name }}</td>
+                        <td>{{ loan.book_title }}</td>
+                        <td>{{ loan.issue_date }}</td>
+                        <td>{{ loan.due_date }}</td>
+                        <td>{{ loan.return_date }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="empty-state">No returned loans found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

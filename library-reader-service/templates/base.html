@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Library Reader Service{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="brand-block">
+            <p class="eyebrow">Course Project</p>
+            <a class="brand" href="{{ url_for('dashboard') }}">Library Reader Service</a>
+        </div>
+        <nav class="nav-menu">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('readers') }}">Readers</a>
+            <a href="{{ url_for('books') }}">Books</a>
+            <a href="{{ url_for('loans') }}">Loans</a>
+            <a href="{{ url_for('overdue_loans') }}">Overdue</a>
+        </nav>
+    </header>
+
+    <main class="page-shell">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <section class="flash-stack">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </section>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Library Reader Service{% endblock %}
+
+{% block content %}
+<section class="hero-card">
+    <div>
+        <p class="eyebrow">Library Overview</p>
+        <h1>Development of a Library Reader Service System</h1>
+        <p class="hero-text">
+            A simple Flask and SQLite web application for managing readers, books,
+            loans, returns, availability, and overdue records.
+        </p>
+    </div>
+    <div class="hero-actions">
+        <a class="button primary" href="{{ url_for('create_reader') }}">Add Reader</a>
+        <a class="button secondary" href="{{ url_for('create_book') }}">Add Book</a>
+        <a class="button secondary" href="{{ url_for('create_loan') }}">Issue Book</a>
+    </div>
+</section>
+
+<section class="card-grid">
+    <article class="stat-card">
+        <p class="stat-label">Book Titles</p>
+        <p class="stat-value">{{ stats.total_books }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Readers</p>
+        <p class="stat-value">{{ stats.total_readers }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Active Loans</p>
+        <p class="stat-value">{{ stats.active_loans }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Overdue Loans</p>
+        <p class="stat-value">{{ stats.overdue_loans }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Available Copies</p>
+        <p class="stat-value">{{ stats.available_books }}</p>
+    </article>
+</section>
+
+<section class="panel">
+    <h2>Core Functions</h2>
+    <div class="info-grid">
+        <div>
+            <h3>Reader Management</h3>
+            <p>Add, edit, delete, view, and search reader records.</p>
+        </div>
+        <div>
+            <h3>Book Management</h3>
+            <p>Maintain the catalog, copies, categories, and availability.</p>
+        </div>
+        <div>
+            <h3>Loan Management</h3>
+            <p>Issue books, process returns, and monitor overdue loans.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

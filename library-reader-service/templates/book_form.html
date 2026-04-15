@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}{{ form_title }} | Library Reader Service{% endblock %}
+
+{% block content %}
+<section class="panel panel-header">
+    <div>
+        <p class="eyebrow">Book Form</p>
+        <h1>{{ form_title }}</h1>
+    </div>
+    <a class="button ghost" href="{{ url_for('books') }}">Back to Books</a>
+</section>
+
+<section class="panel form-panel">
+    <form method="post" action="{{ form_action }}" class="data-form">
+        <label>
+            Title
+            <input type="text" name="title" required value="{{ form_data.get('title', '') }}">
+        </label>
+        <label>
+            Author
+            <input type="text" name="author" required value="{{ form_data.get('author', '') }}">
+        </label>
+        <label>
+            Category
+            <input type="text" name="category" required value="{{ form_data.get('category', '') }}">
+        </label>
+        <label>
+            Publication Year
+            <input type="number" name="publication_year" min="1" required value="{{ form_data.get('publication_year', '') }}">
+        </label>
+        <label>
+            ISBN
+            <input type="text" name="isbn" required value="{{ form_data.get('isbn', '') }}">
+        </label>
+        <label>
+            Total Copies
+            <input type="number" name="total_copies" min="1" required value="{{ form_data.get('total_copies', '1') }}">
+        </label>
+        <label>
+            Available Copies
+            <input type="number" name="available_copies" min="0" required value="{{ form_data.get('available_copies', '1') }}">
+        </label>
+        <div class="form-actions">
+            <button class="button primary" type="submit">{{ submit_label }}</button>
+            <a class="button secondary" href="{{ url_for('books') }}">Cancel</a>
+        </div>
+    </form>
+</section>
+{% endblock %}
